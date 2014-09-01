@@ -5,10 +5,11 @@
    * ==========================
    * No user tracking, no javascript.
    *
-   * to use in your themes function.php
-   * edit the markup of the widget at yourTheme_social();
-   * add your services at update()
-   * Service adresses are hardcoded and can change during time
+   * - to use in your themes function.php
+   * - edit the markup of the widget at yourTheme_social();
+   * - add your services at update()
+   * - Service adresses are hardcoded and can change during time
+   * - Add the CSS part of this file in yourThemes style.css
    */
   class YourTheme_social_widget extends WP_Widget {
 
