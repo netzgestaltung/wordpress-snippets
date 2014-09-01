@@ -7,6 +7,7 @@
    *
    * to use in your themes function.php
    * edit the markup of the widget at yourTheme_social();
+   * add your services at update()
    * Service adresses are hardcoded and can change during time
    */
   class YourTheme_social_widget extends WP_Widget {
@@ -125,3 +126,52 @@
   add_action( 'widgets_init', 'yourTheme_widgets_init' );
   
 ?>
+<style type="text/css">
+
+/*!
+ *  Font Awesome 4.2.0 by @davegandy - http://fontawesome.io - @fontawesome
+ *  License - http://fontawesome.io/license (Font: SIL OFL 1.1, CSS: MIT License)
+ */
+/* FONT PATH
+ * -------------------------- */
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fonts/fontawesome-webfont.eot?v=4.2.0');
+  src: url('fonts/fontawesome-webfont.eot?#iefix&v=4.2.0') format('embedded-opentype'),
+       url('fonts/fontawesome-webfont.woff?v=4.2.0') format('woff'),
+       url('fonts/fontawesome-webfont.ttf?v=4.2.0') format('truetype'),
+       url('fonts/fontawesome-webfont.svg?v=4.2.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.social li {
+  float:left;
+  margin:0 0.5em;
+}
+.social a{
+  display:block;
+  font-size:1.5em;
+  text-indent:-999em;
+  height:1em;
+  width:1em;
+}
+.social a:before{
+  display: block;
+  float:left;
+  height:1em;
+  width:1em;
+  text-align:center;
+  text-indent:0;
+  font-family:FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.social .facebook   a:before{ content: "\f09a"; }
+.social .twitter    a:before{ content: "\f099"; }
+.social .googleplus a:before{ content: "\f0d5"; }
+.social .linkedin   a:before{ content: "\f0e1"; }
+
+</style>
