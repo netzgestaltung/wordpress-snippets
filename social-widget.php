@@ -11,63 +11,62 @@
    */
   class YourTheme_social_widget extends WP_Widget {
 
-	  function YourTheme_social_widget() {
-		  /* Widget settings. */
-		  $widget_ops = array( 'classname' => 'social', 'description' => 'Display social share icons without automatic user tracking' );
+    function YourTheme_social_widget() {
+      /* Widget settings. */
+      $widget_ops = array( 'classname' => 'social', 'description' => 'Display social share icons without automatic user tracking' );
 
-		  /* Widget control settings. */
-		  $control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'social' );
+      /* Widget control settings. */
+      $control_ops = array( 'width' => 300, 'height' => 350, 'id_base' => 'social' );
 
-		  /* Create the widget. */
-		  $this->WP_Widget( 'social', 'Social share', $widget_ops, $control_ops );
+      /* Create the widget. */
+      $this->WP_Widget( 'social', 'Social share', $widget_ops, $control_ops );
+    }
 
-	  }
-
-	  // processes widget options to be saved
-	  function update($new_instance, $old_instance) {
-		  $new_instance = (array) $new_instance;
+    // processes widget options to be saved
+    function update($new_instance, $old_instance) {
+      $new_instance = (array) $new_instance;
 
       $instance = array(
-		    'title' => strip_tags( $new_instance['title'] ),
+        'title' => strip_tags( $new_instance['title'] ),
         'services' => array(
-	        'facebook' => array(
-	          'name' => 'Facebook',
-	          'url' => 'https://www.facebook.com/sharer/sharer.php?u=',
+          'facebook' => array(
+            'name' => 'Facebook',
+            'url' => 'https://www.facebook.com/sharer/sharer.php?u=',
           ),
-	        'twitter' => array(
-	          'name' => 'Twitter',
-	          'url' => 'http://twitter.com/share?url=',
+          'twitter' => array(
+            'name' => 'Twitter',
+            'url' => 'http://twitter.com/share?url=',
           ),
-	        'googleplus' => array(
-	          'name' => 'Google+',
-	          'url' => 'https://plus.google.com/share?url=',
+          'googleplus' => array(
+            'name' => 'Google+',
+            'url' => 'https://plus.google.com/share?url=',
           ),
-	        'linkedin' => array(
-	          'name' => 'LinkedIn',
-	          'url' => 'http://www.linkedin.com/sharer.php?u=',
+          'linkedin' => array(
+            'name' => 'LinkedIn',
+            'url' => 'http://www.linkedin.com/sharer.php?u=',
           ),
-	      ),
-	    );
+        ),
+      );
 
-		  foreach ( $instance['services'] as $serviceName => $serviceData ) {
+      foreach ( $instance['services'] as $serviceName => $serviceData ) {
         $instance[$serviceName] = filter_var($new_instance[$serviceName], FILTER_VALIDATE_BOOLEAN);
-		  }
+      }
 
-		  return $instance;
-	  }
+      return $instance;
+    }
 
-	  // outputs the content of the widget
-	  function widget($args, $instance) {
-		  yourTheme_social($args, $instance);
-	  }
+    // outputs the content of the widget
+    function widget($args, $instance) {
+      yourTheme_social($args, $instance);
+    }
 
-	  // outputs the options form on admin
-	  function form($instance) {
+    // outputs the options form on admin
+    function form($instance) {
 
       $defaults = array( 'facebook' => true, 'twitter' => true, 'googleplus' => true, 'linkedin' => false);
       $services = $instance['services'];
-		  $instance = wp_parse_args( (array) $instance, $defaults);
-		  $title = esc_attr($instance['title']);
+      $instance = wp_parse_args( (array) $instance, $defaults);
+      $title = esc_attr($instance['title']);
   ?>
       <p>
       	<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title:'); ?></label>
@@ -85,16 +84,16 @@
   }
 
   function yourTheme_social($args, $instance){
-	  extract($args);
+    extract($args);
 
-	  $title = apply_filters('widget_title', $instance['title'] );
-	  $services = $instance['services'];
-	  $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === false ? 'http' : 'https';
-	  $host = $_SERVER["HTTP_HOST"];
-	  $path = $_SERVER["REQUEST_URI"];
-	  $pageUrl =  $protocol . '://' . $host . $path;
-	  $servicesCount = 0;
-	  $servicesList = '';
+    $title = apply_filters('widget_title', $instance['title'] );
+    $services = $instance['services'];
+    $protocol = strpos(strtolower($_SERVER['SERVER_PROTOCOL']),'https') === false ? 'http' : 'https';
+    $host = $_SERVER["HTTP_HOST"];
+    $path = $_SERVER["REQUEST_URI"];
+    $pageUrl =  $protocol . '://' . $host . $path;
+    $servicesCount = 0;
+    $servicesList = '';
 
     foreach ( $services as $serviceName => $serviceData ) {
       if ( $instance[$serviceName] ) {
@@ -120,7 +119,7 @@
   }
 
   function yourTheme_widgets_init(){;
-	  register_widget('YourTheme_social_widget');
+    register_widget('YourTheme_social_widget');
   }
 
   add_action( 'widgets_init', 'yourTheme_widgets_init' );
