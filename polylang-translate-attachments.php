@@ -38,12 +38,12 @@ function YourTheme_translate_attachments($translateTo = 'en'){
       $translatedId = wp_insert_post($tranlatedData);
       pll_set_post_language($translatedId, $translatedLang);      
       add_post_meta($translatedId, '_wp_attachment_metadata', get_post_meta(get_the_ID(), '_wp_attachment_metadata', true));
-	    add_post_meta($translatedId, '_wp_attached_file', get_post_meta(get_the_ID(), '_wp_attached_file', true));
-	    
-	    // Update translations
-	    $translations = pll_get_post_translations( get_the_ID() );	    
-	    $translations[$translatedLang] = $translatedId;	    
-	    pll_save_post_translations($translations);
+			add_post_meta($translatedId, '_wp_attached_file', get_post_meta(get_the_ID(), '_wp_attached_file', true));
+			
+			// Update translations
+			$translations = pll_get_post_translations( get_the_ID() );	    
+			$translations[$translatedLang] = $translatedId;	    
+			pll_save_post_translations($translations);
 	    
 	    // Debug
       // echo '<pre>', var_dump($translations), '</pre>';        
