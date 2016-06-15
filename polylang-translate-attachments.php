@@ -22,10 +22,10 @@ function shamrock_translate_attachments($translateTo = 'en'){
     while ( $attachments->have_posts() ) {
       
       $attachments->the_post();
-			$translations = pll_get_post_translations(get_the_ID());
-			
-			// only for not translated attachments
-			if ( !isset($translations[$translateTo]) ) {
+      $translations = pll_get_post_translations(get_the_ID());
+
+      // only for not translated attachments
+      if ( !isset($translations[$translateTo]) ) {
 			
         // Collect attachments Data
         $attachment = get_post();
