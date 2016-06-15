@@ -3,10 +3,15 @@
 /** 
  * Translates all attachments in Wordpress Media Library
  * =====================================================
- * Be carefull, only run once!
+ * @depends   polylang plugin
+ * @usage     add the function into a page or post template and call the page in your browser, 
+ *            remove the function after all translations are done
+ *            or put it inside an conditional comment to only translate in a certain condition
+ * @example   if ( is_page('attachment-translation') ) { yourTheme_translate_attachments() }
+ * 
  * Test first with an dummy image!
  */
-function shamrock_translate_attachments($translateTo = 'en'){
+function yourTheme_translate_attachments($translateTo = 'en'){
    
   // Get all attachments 
   $attachmentsOptions = array(
@@ -51,7 +56,7 @@ function shamrock_translate_attachments($translateTo = 'en'){
         // Update translations
         $translations[$translatedLang] = $translatedId;
         pll_save_post_translations($translations);
-			}
+      }
       // Debug
       // echo '<pre>', var_dump($translations), '</pre>';
     }
