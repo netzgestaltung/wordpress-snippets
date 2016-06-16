@@ -8,6 +8,7 @@
  *            remove the function after all translations are done
  *            or put it inside an conditional comment to only translate in a certain condition
  * @example   if ( is_page('attachment-translation') ) { yourTheme_translate_attachments() }
+ * @license   GPLv3
  * 
  * Test first with an dummy image!
  */
