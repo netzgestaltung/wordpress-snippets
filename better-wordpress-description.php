@@ -37,10 +37,10 @@ function yourTheme_get_page_description($sep, $num_words, $meta = true){
           $description .= $sep . get_the_author_meta('description');
         }
       } else if ( is_home() && ( $posts_page = get_option( 'page_for_posts' ) ) ) {
-		    $description = get_the_title($posts_page);
-	    } else if ( is_search() ) {
-		    $description = __('Search Results For', 'yourTheme').get_search_query();
-	    } 
+        $description = get_the_title($posts_page);
+      } else if ( is_search() ) {
+        $description = __('Search Results For', 'sandbox').get_search_query();
+      } 
     }
     $description .= $sep . get_bloginfo('description');
   }
