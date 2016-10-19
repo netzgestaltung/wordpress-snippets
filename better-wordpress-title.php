@@ -1,6 +1,6 @@
 
 // Page title
-function yourTheme_get_page_title($meta = true){
+function sandbox_get_page_title($meta = true){
   $title = wp_title('', false); 
   
   if ( is_search() ) {
@@ -14,8 +14,8 @@ function yourTheme_get_page_title($meta = true){
   } else {
     $title .= ' - ' . get_bloginfo('name');
   }
-  return filter_var($meta, FILTER_VALIDATE_BOOLEAN) ? wp_strip_all_tags($title) : $title;
+  return filter_var($meta, FILTER_VALIDATE_BOOLEAN) ? esc_html(wp_strip_all_tags($title)) : $title;
 }
-function yourTheme_the_page_title($meta = true){
-  echo yourTheme_get_page_title($meta);
+function sandbox_the_page_title($meta = true){
+  echo sandbox_get_page_title($meta);
 }
