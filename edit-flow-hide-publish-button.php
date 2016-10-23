@@ -31,4 +31,7 @@ function yourTheme_hide_publish_button_until() {
   }
 }
 
+// Load edit flow extensions
+add_action( 'admin_head', 'yourTheme_hide_publish_button_until' );
+
 ?>
