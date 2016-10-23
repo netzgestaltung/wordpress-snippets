@@ -12,7 +12,7 @@
  * 
  * Test first with an dummy image!
  */
-function yourTheme_translate_attachments($translateTo = 'en'){
+function yourTheme_translate_attachments(){
    
   // Get all attachments 
   $attachmentsOptions = array(
@@ -21,6 +21,14 @@ function yourTheme_translate_attachments($translateTo = 'en'){
     'posts_per_page' => -1, // set to 1 to test on only one image (the latest one)
   );
   $attachments = new WP_Query($attachmentsOptions);
+  $currentLang = pll_current_language();
+  $languagesRaw = pll_the_languages(array('raw'=>1));
+  $languages = array();
+  foreach ( $languagesRaw as $language => $languageData ) {    
+    if ( $languageData['slug'] != $currentLang ) {
+      $languages[] = $languageData['slug'];
+    }
+  }
     
   // Attachments loop
   if ( $attachments->have_posts() ) {
@@ -30,36 +38,40 @@ function yourTheme_translate_attachments($translateTo = 'en'){
       $attachments->the_post();
       $translations = pll_get_post_translations(get_the_ID());
 
-      // only for not translated attachments
-      if ( !isset($translations[$translateTo]) ) {
+      foreach ( $languages as $language) {
+      
+        // only for not translated attachments
+        if ( !isset($translations[$language]) ) {
+
+          // Collect attachments Data
+          $attachment = get_post();
+          $attachmentLang = pll_get_post_language(get_the_ID());
+          $attachmentParent = $attachment->post_parent;
+          $attachmentMeta = get_post_meta(get_the_ID());
+          
+          // Set translations data
+          $tranlatedData = (array) $attachment;
+          $tranlatedData['ID'] = null;  // wp_insert_post() will create a new post
+          $translatedParent = pll_get_post($attachmentParent);
+          $tranlatedData['post_parent'] = $tranlatedData['post_parent'] && $translatedParent ? $translatedParent : 0;
+          
+          // Create translated attachment        
+          $translatedId = wp_insert_post($tranlatedData);
+          pll_set_post_language($translatedId, $language);
+          
+          foreach ( $attachmentMeta as $metaKey => $metaValue ) {
+            add_post_meta($translatedId, $metaKey, $metaValue[0]);
+          }
 			
-        // Collect attachments Data
-        $attachment = get_post();
-        $attachmentLang = pll_get_post_language(get_the_ID());
-        $attachmentParent = $attachment->post_parent;
-        $attachmentMeta = get_post_meta(get_the_ID());
-        
-        // Set translations data
-        $tranlatedData = (array) $attachment;
-        $tranlatedData['ID'] = null;  // wp_insert_post() will create a new post
-        $translatedLang = $translateTo;
-        $translatedParent = pll_get_post($attachmentParent);
-        $tranlatedData['post_parent'] = $tranlatedData['post_parent'] && $translatedParent ? $translatedParent : 0;
-        
-        // Create translated attachment        
-        $translatedId = wp_insert_post($tranlatedData);
-        pll_set_post_language($translatedId, $translatedLang);
-        
-        foreach ( $attachmentMeta as $metaKey => $metaValue ) {
-          add_post_meta($translatedId, $metaKey, $metaValue[0]);
-        }
-			
-        // Update translations
-        $translations[$translatedLang] = $translatedId;
-        pll_save_post_translations($translations);
-      }
+          // Update translations
+          $translations[$language] = $translatedId;
+          pll_save_post_translations($translations);
+
+			  }
+			}
       // Debug
       // echo '<pre>', var_dump($translations), '</pre>';
+      
     }
   }
   wp_reset_postdata();
