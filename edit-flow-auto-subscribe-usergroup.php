@@ -10,7 +10,7 @@
  * @param object $post The post being updated
  * @return bool $send_notif Return true to send the email notification, return false to not
  */
-function efx_auto_subscribe_usergroup( $new_status, $old_status, $post ) {
+function yourTheme_auto_subscribe_usergroup( $new_status, $old_status, $post ) {
   global $edit_flow;
 
   // When the post is first created, you might want to automatically set
@@ -47,5 +47,8 @@ function efx_auto_subscribe_usergroup( $new_status, $old_status, $post ) {
   // Return true to send the email notification
   return $new_status;
 }
+
+// Load edit flow extensions
+add_filter( 'ef_notification_status_change', 'yourTheme_auto_subscribe_usergroup', 10, 3 );
 
 ?>
