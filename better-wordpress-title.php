@@ -1,4 +1,4 @@
-
+<?php 
 // Page title
 function yourTheme_get_page_title($meta = true){
   $title = wp_title('', false); 
@@ -19,3 +19,4 @@ function yourTheme_get_page_title($meta = true){
 function yourTheme_the_page_title($meta = true){
   echo yourTheme_get_page_title($meta);
 }
+?>
