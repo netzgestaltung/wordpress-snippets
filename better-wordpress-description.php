@@ -1,4 +1,4 @@
-
+<?php
 // Page description
 function yourTheme_get_page_description($sep, $num_words, $meta = true){
   if ( !is_string($sep) || empty($num_words) ) { $sep = '-'; }
@@ -49,3 +49,4 @@ function yourTheme_get_page_description($sep, $num_words, $meta = true){
 function yourTheme_the_page_description($sep, $num_words, $meta = true){
   echo yourTheme_get_page_description($sep, $num_words, $meta);
 }
+?>
