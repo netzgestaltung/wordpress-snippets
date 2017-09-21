@@ -1,6 +1,10 @@
 <?php
-  // hide posts that has a value set at the custom field "_hide"
-  // just dont return anything, when the post is to be hidden
+  /**
+   * hide posts that has a value set at the custom field "_hide"
+   * =========
+   * just dont return anything, when the post is to be hidden
+   * @see https://github.com/cyberhobo/wordpress-geo-mashup/wiki/Custom-marker-depending-on-a-custom-field-value
+   */
   function yourTheme_geo_mashup_locations_json_filter($json_properties, $queried_object){
     $post_id = $queried_object->object_id;
     $meta_key = '_hide';  // the custom field "_hide" is a checkbox, that is "" when not used or "1" when checked.
