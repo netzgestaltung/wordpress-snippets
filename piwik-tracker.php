@@ -6,7 +6,7 @@
  * https://github.com/netzgestaltung/wordpress-snippets/edit/master/piwik-tracker.php
  * Tracks anonymous pageViews on every visit by HTTP Tracking API
  * Tracks campaigns with the scheme: https://www.domain.tld/?c=<pk_campaign>(-<pk_source>)(-<pk_medum>)(-<pk_keyword>)(-<pk_content>)
- 
+ *
  * Installation:
  * Download: https://github.com/matomo-org/matomo-php-tracker
  * save PiwikTracker.php in yourThemes <folderRoot>/includes/matomo-php-tracker/PiwikTracker.php
@@ -17,7 +17,7 @@
  * Optional implement yourTheme_page_title() instead wp_title() from 
  * https://github.com/netzgestaltung/wordpress-snippets/blob/master/better-wordpress-title.php
  *
- * License: GPL-V3
+ * License: GNU General Public License v2.0
  */
 function yourTheme_piwik_tracker($query){
   
@@ -86,6 +86,6 @@ function yourTheme_piwik_tracker($query){
   }
 }
 
-add_action('pre_get_posts', 'sandbox_piwik_tracker');
+add_action('pre_get_posts', 'yourTheme_piwik_tracker');
 
 ?>
