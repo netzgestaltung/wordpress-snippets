@@ -3,6 +3,7 @@
 /**
  * Piwik Tracker implementing class PiwikTracker
  * =============================================
+ * https://github.com/netzgestaltung/wordpress-snippets/edit/master/piwik-tracker.php
  * Tracks anonymous pageViews on every visit by HTTP Tracking API
  * Tracks campaigns with the scheme: https://www.domain.tld/?c=<pk_campaign>(-<pk_source>)(-<pk_medum>)(-<pk_keyword>)(-<pk_content>)
  
@@ -12,8 +13,12 @@
  *
  * Configuration:
  * Specify $tracker_url, $piwik_site_id and $piwik_user_token
+ *
+ * Optional implement yourTheme_page_title() instead wp_title() from 
+ * https://github.com/netzgestaltung/wordpress-snippets/blob/master/better-wordpress-title.php
+ *
+ * License: GPL-V3
  */
-
 function yourTheme_piwik_tracker($query){
   
   // Config
@@ -21,14 +26,17 @@ function yourTheme_piwik_tracker($query){
   $tracker_url = '';
   
   // Specify the site ID to track 
-  $piwik_site_id = 1;
+  $tracker_site_id = 1;
   
   // Specify an API token with at least Write permission, so the Visitor IP address can be recorded 
   // Learn more about token_auth: https://matomo.org/faq/general/faq_114/
-  $piwik_user_token = '';
+  $tracker_user_token = '';
     
-  
+  // Only once a PageView
   if ( $query->is_main_query() ) {
+    // page title
+    // Use better page title: https://github.com/netzgestaltung/wordpress-snippets/blob/master/better-wordpress-title.php
+    $page_title = wp_title('', false); // $page_title = yourTheme_get_page_title();
     $site_url = '';
     $schema = 'https://';
     if (empty($_SERVER['HTTPS']) or $_SERVER['HTTPS'] === 'off') {
@@ -39,16 +47,17 @@ function yourTheme_piwik_tracker($query){
     
     include_once(get_template_directory() . '/includes/matomo-php-tracker/PiwikTracker.php');
     PiwikTracker::$URL = $tracker_url;
-    $piwikTracker = new PiwikTracker($piwik_site_id);
+    $piwikTracker = new PiwikTracker($tracker_site_id);
 
     // Specify an API token with at least Write permission, so the Visitor IP address can be recorded 
     // Learn more about token_auth: https://matomo.org/faq/general/faq_114/
-    $piwikTracker->setTokenAuth($piwik_user_token);
+    $piwikTracker->setTokenAuth($tracker_user_token);
 
     // You can manually set the visitor details (resolution, time, plugins, etc.) 
     // See all other ->set* functions available in the PiwikTracker.php file
     // $piwikTracker->setResolution(1600, 1400);
-
+    
+    // Campaign Tracking
     if (isset($_GET['c'])) { 
       $piwikTracker->setUrlReferrer($_SERVER['HTTP_REFERER']);
       
@@ -67,10 +76,10 @@ function yourTheme_piwik_tracker($query){
         $site_url .= '?' . http_build_query($campaign);
       }
     }
-    // echo var_dump($campaign_url);
     $piwikTracker->setUrl($site_url);
+   
     // Sends Tracker request via http
-    $piwikTracker->doTrackPageView(sandbox_get_page_title());
+    $piwikTracker->doTrackPageView(page_title);
     
     // You can also track Goal conversions
     // $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);
