@@ -2,20 +2,31 @@
 
 /**
  * Piwik Tracker implementing class PiwikTracker
+ * =============================================
+ * Tracks anonymous pageViews on every visit by HTTP Tracking API
+ * Tracks campaigns with the scheme: https://www.domain.tld/?c=<pk_campaign>(-<pk_source>)(-<pk_medum>)(-<pk_keyword>)(-<pk_content>)
+ 
+ * Installation:
  * Download: https://github.com/matomo-org/matomo-php-tracker
  * save PiwikTracker.php in yourThemes <folderRoot>/includes/matomo-php-tracker/PiwikTracker.php
- * Tracks anonymous pageViews on every visit by http-api-requests
- * Tracks campaigns with the scheme: https://www.domain.tld/?c=<pk_campaign>(-<pk_source>)(-<pk_medum>)(-<pk_keyword>)(-<pk_content>)
- * Specify $piwik_site_id and $piwik_user_token
+ *
+ * Configuration:
+ * Specify $tracker_url, $piwik_site_id and $piwik_user_token
  */
 
 function yourTheme_piwik_tracker($query){
+  
+  // Config
+  // Matomo base URL, for example http://example.org/piwik/ Must be set 
+  $tracker_url = '';
+  
   // Specify the site ID to track 
   $piwik_site_id = 1;
   
   // Specify an API token with at least Write permission, so the Visitor IP address can be recorded 
   // Learn more about token_auth: https://matomo.org/faq/general/faq_114/
-  $piwik_user_token = ''; // Enter user token 
+  $piwik_user_token = '';
+    
   
   if ( $query->is_main_query() ) {
     $site_url = '';
@@ -27,7 +38,7 @@ function yourTheme_piwik_tracker($query){
     $site_url .= $schema . $_SERVER['SERVER_NAME'] . $uri_parts[0];
     
     include_once(get_template_directory() . '/includes/matomo-php-tracker/PiwikTracker.php');
-    PiwikTracker::$URL = 'https://stats.globalsurvey-sdgs.com/';
+    PiwikTracker::$URL = $tracker_url;
     $piwikTracker = new PiwikTracker($piwik_site_id);
 
     // Specify an API token with at least Write permission, so the Visitor IP address can be recorded 
