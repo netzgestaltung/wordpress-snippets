@@ -61,7 +61,7 @@ function yourTheme_piwik_tracker($query){
     // $piwikTracker->setResolution(1600, 1400);
     
     // Campaign Tracking
-    if (isset($_GET['c'])) { 
+    if ( isset($_GET['c']) ) { 
       $piwikTracker->setUrlReferrer($_SERVER['HTTP_REFERER']);
       
       $campaign_parts = array(
