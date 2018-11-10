@@ -15,7 +15,7 @@ function yourTheme_piwik_tracker($query){
   
   // Specify an API token with at least Write permission, so the Visitor IP address can be recorded 
   // Learn more about token_auth: https://matomo.org/faq/general/faq_114/
-  $piwik_user_token = ''; Enter user token 
+  $piwik_user_token = ''; // Enter user token 
   
   if ( $query->is_main_query() ) {
     $site_url = '';
@@ -67,3 +67,5 @@ function yourTheme_piwik_tracker($query){
 }
 
 add_action('pre_get_posts', 'sandbox_piwik_tracker');
+
+?>
