@@ -3,7 +3,7 @@
 /**
  * Piwik Tracker implementing class PiwikTracker
  * =============================================
- * https://github.com/netzgestaltung/wordpress-snippets/edit/master/piwik-tracker.php
+ * https://github.com/netzgestaltung/wordpress-snippets/blob/master/piwik-tracker.php
  * Tracks anonymous pageViews on every visit by HTTP Tracking API
  * Tracks campaigns with the scheme: https://www.domain.tld/?c=<pk_campaign>(-<pk_source>)(-<pk_medum>)(-<pk_keyword>)(-<pk_content>)
  *
