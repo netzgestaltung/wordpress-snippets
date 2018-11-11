@@ -60,6 +60,11 @@ function yourTheme_piwik_tracker($query){
     // See all other ->set* functions available in the PiwikTracker.php file
     // $piwikTracker->setResolution(1600, 1400);
     
+    // only track anonymous data!
+    $piwikTracker->setIp('0.0.0.0');
+    $piwikTracker->deleteCookies();
+    $piwikTracker->disableCookieSupport();
+    
     // Campaign Tracking
     if ( isset($_GET['c']) ) { 
       
