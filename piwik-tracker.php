@@ -62,7 +62,6 @@ function yourTheme_piwik_tracker($query){
     
     // Campaign Tracking
     if ( isset($_GET['c']) ) { 
-      $piwikTracker->setUrlReferrer($_SERVER['HTTP_REFERER']);
       
       // Piwik related campain query params
       $campaign_parts = array(
