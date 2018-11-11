@@ -17,7 +17,7 @@
  * Configuration:
  * Specify $tracker_url, $piwik_site_id and $piwik_user_token
  *
- * Optional implement yourTheme_page_title() instead wp_title() from 
+ * Optional implement yourTheme_get_page_title() instead wp_title() from 
  * https://github.com/netzgestaltung/wordpress-snippets/blob/master/better-wordpress-title.php
  *
  * License: GNU General Public License v2.0
@@ -64,6 +64,7 @@ function yourTheme_piwik_tracker($query){
     if ( isset($_GET['c']) ) { 
       $piwikTracker->setUrlReferrer($_SERVER['HTTP_REFERER']);
       
+      // Piwik related campain query params
       $campaign_parts = array(
         'pk_campaign',
         'pk_source',
@@ -71,14 +72,21 @@ function yourTheme_piwik_tracker($query){
         'pk_kwd',
         'pk_content',
       );
+      
+      // get array from query string, delimited by "-"
       $campaign_params = explode('-', $_GET['c'], 5);
+      // how much params are given?
       $campaign_param_length = count($campaign_params);
+      // reduce the parts set to the number of given params
       $campaign_parts = array_slice($campaign_parts, 0, $campaign_param_length, true);
+      // put params and parts together
       $campaign = array_combine($campaign_parts, $campaign_params);
-      if ( count($campaign) > 0 ) {
+      // create new querystring
+      if ( count($campaign) > 0 ) { // if we have campain params
         $site_url .= '?' . http_build_query($campaign);
       }
     }
+    // Set the url of visited page that we send to matomo
     $piwikTracker->setUrl($site_url);
    
     // Sends Tracker request via http
