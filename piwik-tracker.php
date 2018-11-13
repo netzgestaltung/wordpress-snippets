@@ -94,7 +94,7 @@ function yourTheme_piwik_tracker($query){
     $piwikTracker->setUrl($site_url);
    
     // Sends Tracker request via http
-    $piwikTracker->doTrackPageView(page_title);
+    $piwikTracker->doTrackPageView($page_title);
     
     // You can also track Goal conversions
     // $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);
