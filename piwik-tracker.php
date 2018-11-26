@@ -13,6 +13,7 @@
  * Download: https://github.com/matomo-org/matomo-php-tracker
  * save PiwikTracker.php in yourThemes <folderRoot>/includes/matomo-php-tracker/PiwikTracker.php
  * Integrate this file into yourThemes functions.php and rename "yourTheme" to your themes name
+ * Add <?php sandbox_piwik_tracker(); ?> to your header.php
  *
  * Configuration:
  * Specify $tracker_url, $piwik_site_id and $piwik_user_token
@@ -22,7 +23,7 @@
  *
  * License: GNU General Public License v2.0
  */
-function yourTheme_piwik_tracker($query){
+function yourTheme_piwik_tracker(){
   
   // Config
   // Matomo base URL, for example http://example.org/piwik/ Must be set 
@@ -36,7 +37,7 @@ function yourTheme_piwik_tracker($query){
   $tracker_user_token = '';
     
   // Only once a PageView
-  if ( $query->is_main_query() ) {
+  if ( is_main_query() ) {
     // page title
     // Use better page title: https://github.com/netzgestaltung/wordpress-snippets/blob/master/better-wordpress-title.php
     $page_title = wp_title('', false); // $page_title = yourTheme_get_page_title();
@@ -89,6 +90,11 @@ function yourTheme_piwik_tracker($query){
       if ( count($campaign) > 0 ) { // if we have campain params
         $site_url .= '?' . http_build_query($campaign);
       }
+    }
+    if ( is_404() ) {
+      $page_title = '404 not found, Look for 404 Data at Custom Variables';
+      $piwikTracker->setCustomVariable(1, '404', $site_url, 'page');
+      $site_url = $schema . $_SERVER['SERVER_NAME'] . '/404';
     }
     // Set the url of visited page that we send to matomo
     $piwikTracker->setUrl($site_url);
