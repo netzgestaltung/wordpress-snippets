@@ -110,6 +110,4 @@ function yourTheme_piwik_tracker(){
   }
 }
 
-add_action('pre_get_posts', 'yourTheme_piwik_tracker');
-
 ?>
