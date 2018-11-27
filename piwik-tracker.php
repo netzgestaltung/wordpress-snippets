@@ -91,6 +91,9 @@ function yourTheme_piwik_tracker(){
         $site_url .= '?' . http_build_query($campaign);
       }
     }
+    // Errorpage handling
+    // sends always /404 as url but adds a custom variable "404" that gets the insights 
+    // of URLs leading to 404 pages
     if ( is_404() ) {
       $page_title = '404 not found, Look for 404 Data at Custom Variables';
       $piwikTracker->setCustomVariable(1, '404', $site_url, 'page');
