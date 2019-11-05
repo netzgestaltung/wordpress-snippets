@@ -1,7 +1,7 @@
 <?php 
 /**
  * Get WP post rating - rated posts orderd
- * @author: Thomas Fellinger/
+ * @author: Thomas Fellinger(@netzgestaltung)/Faisal Ahmed(@fftfaisal)
  * @license: GNU GPLv3
  * @reuired https://wordpress.org/plugins/wp-post-comment-rating/
  * @see idea: https://wordpress.org/support/topic/howto-sort-posts-by-rating/
