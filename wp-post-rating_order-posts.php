@@ -22,7 +22,7 @@
  * - https://developer.wordpress.org/reference/functions/update_post_meta/
  *
  * @usage WP_Query
- *   $my_posts = new WP_Query(array('orderby' => 'meta_value_num', 'meta_key' => '_wpcr_rating', 'order' => 'ASC' ));
+ *   $my_posts = new WP_Query(array('orderby' => 'meta_value_num', 'meta_key' => '_wpcr_rating', 'order' => 'ASC'));
  *
  * @usage filter 'pre_get_posts'
  *   function myPlugin_pre_get_posts($query) {
