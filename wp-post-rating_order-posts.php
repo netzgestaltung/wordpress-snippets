@@ -55,7 +55,6 @@
  *   ));
  *   $my_posts = new WP_Query($my_posts_args);
  */
-// add avg rating to post meta after a comment was written
 
 // sets post_meta '_wpcr_rating' when new approved comment is posted
 function myPlugin_comment_post($id, $approved){
