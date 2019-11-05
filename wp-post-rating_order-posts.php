@@ -39,8 +39,6 @@
  *       'title_order' => 'ASC',
  *       'rating_order' => 'DESC',
  *     ), 
- *     'meta_key' => '_wpcr_rating', 
- *     'order' => 'ASC'
  *     'meta_query' => array(
  *       'relation' => 'AND',
  *       'title_order' => array(
