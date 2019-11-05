@@ -10,9 +10,11 @@
  * - https://developer.wordpress.org/reference/hooks/transition_comment_status/
  * - https://developer.wordpress.org/reference/hooks/comment_post/
  * - https://wordpress.stackexchange.com/questions/181881/wp-query-sort-by-comment-meta-data/182682
- * - https://stackoverflow.com/questions/13452463/wordpress-how-to-get-plugin-options-from-other-plugin-page
  * - https://developer.wordpress.org/reference/functions/get_comments/
  * - https://developer.wordpress.org/reference/hooks/wp_set_comment_status/
+ *
+ * @see resources about plugins:
+ * - https://stackoverflow.com/questions/13452463/wordpress-how-to-get-plugin-options-from-other-plugin-page
  *
  * @see resources about posts:
  * - https://wordpress.stackexchange.com/questions/249881/multiple-custom-fields-for-orderby-in-wp-query
