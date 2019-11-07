@@ -84,6 +84,7 @@ function myPlugin_set_rating(){
     wp_reset_postdata();
   }
 }
+
 // sets post_meta '_wpcr_rating' to zero when not having comments
 function myPlugin_save_post($post_id, $post, $update){
   if ( !$post->_wpcr_rating ) {
@@ -91,6 +92,7 @@ function myPlugin_save_post($post_id, $post, $update){
   }
 }
 add_action( 'save_post', 'myPlugin_save_post', 10, 3);
+
 // sets post_meta '_wpcr_rating' when new approved comment is posted
 function myPlugin_comment_post($id, $approved){
   myPlugin_post_meta_avg_rating(get_comment($id)->comment_post_ID);
