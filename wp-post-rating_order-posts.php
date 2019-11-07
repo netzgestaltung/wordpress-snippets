@@ -21,6 +21,13 @@
  * - https://make.wordpress.org/core/2015/03/30/query-improvements-in-wp-4-2-orderby-and-meta_query/
  * - https://developer.wordpress.org/reference/functions/update_post_meta/
  *
+ * @usage set base value
+ *        to properly use the orderby WP_Qery param all desired posts needs a base zero value
+ *        customize the query args!
+ *        only use once!
+ *        insert into any page or post or archive template and load the page
+ *   myPlugin_set_rating();
+ *
  * @usage WP_Query
  *   $my_posts = new WP_Query(array('orderby' => 'meta_value_num', 'meta_key' => '_wpcr_rating', 'order' => 'ASC'));
  *
@@ -55,7 +62,35 @@
  *   ));
  *   $my_posts = new WP_Query($my_posts_args);
  */
-
+// sets all existing posts '_wpcr_rating' meta field to zero, 
+// customize the query args, only use once
+function myPlugin_set_rating(){
+  $args = array(
+    'post_type' => 'my_post_type',
+    'posts_per_page' => -1,
+    'meta_query' => array(
+      'rating_all' => array(
+        'key' => '_wpcr_rating',
+        'compare' => 'NOT EXISTS',
+      ),
+    ),
+  );
+  $query = new WP_Query($args);
+  if ( $query->have_posts() ) {
+    while ( $query->have_posts() ) {
+      $query->the_post();
+      update_post_meta(get_the_ID(), '_wpcr_rating', 0);
+    }
+    wp_reset_postdata();
+  }
+}
+// sets post_meta '_wpcr_rating' to zero when not having comments
+function myPlugin_save_post($post_id, $post, $update){
+  if ( !$post->_wpcr_rating ) {
+    update_post_meta($post_id, '_wpcr_rating', 0);
+  }
+}
+add_action( 'save_post', 'myPlugin_save_post', 10, 3);
 // sets post_meta '_wpcr_rating' when new approved comment is posted
 function myPlugin_comment_post($id, $approved){
   myPlugin_post_meta_avg_rating(get_comment($id)->comment_post_ID);
@@ -80,6 +115,32 @@ function myPlugin_post_meta_avg_rating($post_id){
   if ( $avg > 0 ) {
     update_post_meta($post_id, '_wpcr_rating', $avg);
   }
+}
+
+// calculates average rating based on comment_meta 'rating'
+function myPlugin_calculate_avg_rating($post_id = false){
+  if ( !function_exists('wpcr_avg_rating') ) {
+    return 0;
+  }
+  if ( !$post_id ) {
+    $post_id = get_the_ID();
+  }
+  $comments = get_approved_comments($post_id);
+  $sum = 0;
+  $avg = 0;
+  $count_rated = 0;
+  
+  foreach ( $comments as $comment ) {
+    $rating = get_comment_meta($comment->comment_ID, 'rating', true);
+    if ( $rating ) {
+      $sum = $sum + (int)$rating;
+      $count_rated++;
+    }
+  }
+  if ( $count_rated > 0 ) { 
+    $avg = $sum/$count_rated;
+  }
+  return $avg;
 }
 
 // add own rating avg function for better displaying
