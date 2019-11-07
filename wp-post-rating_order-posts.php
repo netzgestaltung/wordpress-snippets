@@ -91,7 +91,7 @@ function myPlugin_save_post($post_id, $post, $update){
     update_post_meta($post_id, '_wpcr_rating', 0);
   }
 }
-add_action( 'save_post', 'myPlugin_save_post', 10, 3);
+add_action('save_post', 'myPlugin_save_post', 10, 3);
 
 // sets post_meta '_wpcr_rating' when new approved comment is posted
 function myPlugin_comment_post($id, $approved){
