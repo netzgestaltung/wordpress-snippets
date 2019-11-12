@@ -1,0 +1,32 @@
+/**
+ * Display a Gallery with only one thumbnail
+ * Show other Gallery Items after clicked on the thumbnail
+ * =======================================================
+ * Works good togheter with so called "Lightbox Plugins" that let the user navigate trough gallery images inside the lightbox
+ * Example: https://wordpress.org/plugins/responsive-lightbox/
+ * only hides all but the first image in content and let the rest accessible via the lightbox.
+ * 
+ * testet with "classic editor" galleries.
+ * Gutenberg serves extra Frontend CSS which i just cant stand to interfer with mine.
+ *
+ * Edit the text "Galerie öffnen" to your language
+ * EN: "open gallery"
+ */
+
+.gallery::before{
+  display:none;
+}
+.gallery > .gallery-item{
+  display:none;
+}
+.gallery > .gallery-item:first-child{
+  display:block;
+}
+.gallery > .gallery-item:first-child a::after{
+  content:'Galerie öffnen';
+  display:block;
+  margin:0 auto;
+}
+.gallery-size-thumbnail > .gallery-item:first-child a::after{
+  width:150px;
+}
