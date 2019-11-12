@@ -13,15 +13,19 @@
  * EN: "open gallery"
  */
 
+/* remove before speudo element just in case it exists. it then would be the first-child */
 .gallery::before{
   display:none;
 }
+/* hide all gallery-items */
 .gallery > .gallery-item{
   display:none;
 }
+/* show the first gallery-item */
 .gallery > .gallery-item:first-child{
   display:block;
 }
+/* optional: display a "open gallery" hint. May needs other css depending on your theme */
 .gallery > .gallery-item:first-child a::after{
   content:'Galerie öffnen';
   display:block;
