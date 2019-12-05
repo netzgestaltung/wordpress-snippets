@@ -150,29 +150,41 @@ function myPlugin_avg_rating($atts) {
   if ( !function_exists('wpcr_avg_rating') ) {
     return '';
   }
-  $a = shortcode_atts(array('title' => 'Rating',), $atts); // what is this good for?
-  $output = '';
-  
+  $a = shortcode_atts(array('avgText' => true, 'title' => ''), $atts);
+  $wpcr_options = get_option('wpcr_settings');
   $post_id = get_the_ID();
   $avg = get_post_meta($post_id, '_wpcr_rating', true);
   // $avg = myPlugin_calculate_avg_rating($post_id); // now stored to post
   $comment_count = wp_count_comments($post_id)->approved;
   
-  $wpcr_options = get_option('wpcr_settings');
-  $tooltip_inline = $wpcr_options['tooltip_inline'];
-  $avgrating_text = $wpcr_options['wpcravg_text'];
-  $avg_text = $avgrating_text == '' ? __( 'Average', 'wp-post-comment-rating' ) : $avgrating_text;
+  $output = '';
+  $title = '';
+  if ( $a['title'] !== '' ) {
+    $title = '<span class="wpcr_title">' . $a['title'] . '</span>';
+  }
+  $avg_text = __('Average', 'wp-post-comment-rating');
+  if ( $wpcr_options['wpcravg_text'] !== '' ) {
+    $avg_text =  $wpcr_options['wpcravg_text'];
+  }
   $avgText = __('average', 'wp-post-comment-rating');
   $outOf   = __('out of 5. Total', 'wp-post-comment-rating');
-
+  
   if ( $avg > 0 ) {
-    if ( $tooltip_inline == 1 ) {
-      $output = '<div class="wpcr_aggregate"><a class="wpcr_tooltip" title="'.$avgText.': '.round($avg,2).' '.$outOf.': '.$comment_count.'"><span class="wpcr_stars" title="">'.$avg_text.':</span>';
-      $output .= '<span class="wpcr_averageStars" id="'.$avg.'"></span></a></div>';
-    }
-    if ( $tooltip_inline == 0 ) {
-      $output = '<div class="wpcr_aggregate"><a class="wpcr_inline" title=""><span class="wpcr_stars" title="">'.$avg_text.':</span>';
-      $output .= '<span class="wpcr_averageStars" id="'.$avg.'"></span></a><span class="avg-inline">('.$avgText.': <strong> '.round($avg, 2).'</strong> '.$outOf.': '.$comment_count.')</span></div>';
+    if ( filter_var($a['avgText'], FILTER_VALIDATE_BOOLEAN) ) {
+      if ( $wpcr_options['tooltip_inline'] == 1 ) {
+        $output = '<div class="wpcr_aggregate">';
+        $output .= $title;
+        $output .= '<a class="wpcr_tooltip" title="'.$avgText.': '.round($avg,2).' '.$outOf.': '.$comment_count.'"><span class="wpcr_stars" title="">'.$avg_text.':</span>';
+        $output .= '<span class="wpcr_averageStars" data-wpcravg="' . $avg . '"></span></a></div>';
+      }
+      if ( $wpcr_options['tooltip_inline'] == 0 ) {
+        $output = '<div class="wpcr_aggregate">';
+        $output .= $title;
+        $output .= '<a class="wpcr_inline" title=""><span class="wpcr_stars" title="">'.$avg_text.':</span>';
+        $output .= '<span class="wpcr_averageStars" data-wpcravg="' . $avg . '"></span></a><span class="avg-inline">('.$avgText.': <strong> '.round($avg, 2).'</strong> '.$outOf.': '.$comment_count.')</span></div>';
+      } 
+    } else {
+      $output = '<div class="wpcr_aggregate">' . $title . '<a class="wpcr_inline" title="' . $avg_text . ': ' . round($avg, 2) . '"><span class="wpcr_averageStars" data-wpcravg="' . $avg . '"></span></a></div>';
     }
   }
   return $output;
