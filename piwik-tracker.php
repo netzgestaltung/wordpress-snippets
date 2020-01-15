@@ -13,7 +13,7 @@
  * Download: https://github.com/matomo-org/matomo-php-tracker
  * save PiwikTracker.php in yourThemes <folderRoot>/includes/matomo-php-tracker/PiwikTracker.php
  * Integrate this file into yourThemes functions.php and rename "yourTheme" to your themes name
- * Add <?php sandbox_piwik_tracker(); ?> to your header.php
+ * Add <?php yourTheme_piwik_tracker(); ?> to your header.php
  *
  * Configuration:
  * Specify $tracker_url, $piwik_site_id and $piwik_user_token
