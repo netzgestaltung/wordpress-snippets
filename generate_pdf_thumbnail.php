@@ -10,8 +10,8 @@
  * @since   alpha 1.6
  * @source  https://gist.github.com/umidjons/11037635#gistcomment-3045106
  *
- * @param string $file url/path.
- * @param boolen $url return full icon url.
+ * @param string  $source path to source file.
+ * @param integer $width width of the desired output image (at 72dpi)
  * @return string path or url.
  */
 function myPlugin_generate_pdf_thumbnail($source, $width=252){
@@ -52,12 +52,13 @@ function myPlugin_generate_pdf_thumbnail($source, $width=252){
  * @since   alpha 1.6
  * @source  https://www.wpexplorer.com/wordpress-featured-image-url/
  *
- * @param  val     $post_id, default is 0
+ * @param  integer $post_id, default is 0
  * @param  string  $pdf_thumbnail path to the temporary pdf thumbnail
  * @param  boolean $delete_tmp wheter the temporary pdf thumbnail should be deleted, default is true
  * @return array
  * - the path to the post thumbnail
  * - the html for the post thumbnail meta box
+ * - result of temporary file deletion
  */
 function myPlugin_set_post_thumbnail($post_id=0, $pdf_thumbnail, $delete_tmp=true){
   $post_id = intval($post_id) > 0 ? intval($post_id) : 0;
