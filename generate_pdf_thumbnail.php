@@ -34,7 +34,6 @@ function myPlugin_generate_pdf_thumbnail($source, $width=252){
     $path_parts = pathinfo($source);
     $img_path = $source . '.' . $format;
 
-    // $ghostscript = 'gs -sDEVICE=' . $format . ' -dPDFFitPage=true -dDEVICEWIDTHPOINTS=' . $size . ' -dDEVICEHEIGHTPOINTS=' . $size . ' -sOutputFile=' . $img_path . ' ' . $source;
     $ghostscript = 'gs -sDEVICE=' . $format . ' -dJPEGQ=75 -r72x72 -dBATCH -dPDFFitPage=true -dDEVICEWIDTHPOINTS=' . $width . ' -dDEVICEHEIGHTPOINTS=' . $height . ' -sOutputFile=' . $img_path . ' ' . $source;    $ghostscript = exec($ghostscript);
     if ( $ghostscript === 'GS>' ) {
       $img = $img_path;
