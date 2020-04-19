@@ -15,8 +15,10 @@
  * @return string path or url.
  */
 function myPlugin_generate_pdf_thumbnail($source, $width=252){
-  // First, test Imagick's extension and classes.
-  if ( !extension_loaded('imagick') || !class_exists('Imagick', false) ) {
+  // First, test ghostscripts existance
+  $has_gs = false;
+  $gs_check = system('gs --info', $has_gs);
+  if ( $has_gs === false ) { // sorry, no ghostscript installed
     return false;
   }
   $img = false;
