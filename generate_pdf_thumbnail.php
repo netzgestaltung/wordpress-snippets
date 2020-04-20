@@ -16,9 +16,8 @@
  */
 function myPlugin_generate_pdf_thumbnail($source, $width=252){
   // First, test ghostscripts existance
-  $has_gs = false;
-  $gs_check = system('gs --info', $has_gs);
-  if ( $has_gs === false ) { // sorry, no ghostscript installed
+  exec('gs --help', $gs_help, $gs_check);
+  if ( $gs_check !== 0 ) { // sorry, no ghostscript installed
     return false;
   }
   $img = false;
@@ -34,9 +33,9 @@ function myPlugin_generate_pdf_thumbnail($source, $width=252){
     $path_parts = pathinfo($source);
     $img_path = $source . '.' . $format;
 
-    $ghostscript = 'gs -sDEVICE=' . $format . ' -dJPEGQ=75 -r72x72 -dBATCH -dPDFFitPage=true -dDEVICEWIDTHPOINTS=' . $width . ' -dDEVICEHEIGHTPOINTS=' . $height . ' -sOutputFile=' . $img_path . ' ' . $source;
-    $ghostscript = exec($ghostscript);
-    if ( $ghostscript === 'GS>' ) {
+    $ghostscript = 'gs -sDEVICE=' . $format . ' -dJPEGQ=75 -r72x72 -dBATCH -dNOPAUSE -dFirstPage=1 -dLastPage=1 -dPDFFitPage=true -dDEVICEWIDTHPOINTS=' . $width . ' -dDEVICEHEIGHTPOINTS=' . $height . ' -sOutputFile=' . $img_path . ' ' . $source;
+    $ghostscript = exec($ghostscript, $gs_convert, $gs_convert_check);
+    if ( $gs_convert_check === 0 ) {
       $img = $img_path;
     }
   }
