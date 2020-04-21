@@ -94,9 +94,6 @@ function myPlugin_set_post_thumbnail($post_id=0, $pdf_thumbnail, $delete_tmp=tru
     // Create the attachment
     $post_thumbnail_id = wp_insert_attachment($post_thumbnail_attachment, $post_thumbnail, $post_id);
 
-    // Include image.php
-    require_once(ABSPATH . 'wp-admin/includes/image.php');
-
     // Define attachment metadata
     $post_thumbnail_data = wp_generate_attachment_metadata($post_thumbnail_id, $post_thumbnail);
 
