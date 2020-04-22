@@ -107,6 +107,11 @@ function myPlugin_set_post_thumbnail($post_id=0, $pdf_thumbnail, $delete_tmp=tru
       }
       $post_thumbnail = array(
         'file' => $post_thumbnail,
+        // backend-js ajax callback uses WPSetThumbnailHTML(html) to replace the meta box
+        // it is then displayed immediatly and saved correctly when the post gets updated
+        // @see  https://developer.wordpress.org/reference/functions/_wp_post_thumbnail_html/
+        // @see  https://github.com/WordPress/WordPress/blob/master/wp-admin/js/post.js#L111
+        // @example  https://github.com/WordPress/WordPress/blob/master/wp-admin/js/set-post-thumbnail.js
         'meta_box' => _wp_post_thumbnail_html($post_thumbnail_id, $post_id),
         'delete_tmp' => $delete_tmp,
       );
