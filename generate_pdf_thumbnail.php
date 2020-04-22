@@ -120,5 +120,78 @@ function myPlugin_set_post_thumbnail($post_id=0, $pdf_thumbnail, $delete_tmp=tru
   }
   return $post_thumbnail;
 }
+/**
+ * Generate and set all post thumbnails for a post type by a pdf upload url field
+ *
+ * use once to generate post thumbnails for previously created download posts
+ * does not overwrite existing post thumbnails so a second run is save
+ * 
+ * @uses
+ * - myPlugin_generate_pdf_thumbnail()
+ * - myPlugin_set_post_thumbnail()
+ *
+ * @param  $post_type   string post type of posts to generate the thumbnail for
+ * @param  $field_name  string the name of the custom meta field
+ * @return $result      array  array with error handling, message and an array "set" with complete details over every set thumbnail
+ */
+function myPlugin_set_all_post_thumbnails($post_type, $field_name){
+  $result = array('set'=>false, 'error'=>true, 'message'=>'no post type entered or field name entered');
+  if ( !empty($post_type) && !empty($field_name) ) {
+    $result['message'] = 'no posts found in "' . $post_type . '"';
+    $posts = new WP_Query(array(
+      'post_type' => $post_type,
+      'posts_per_page' => -1,
+    ));
+    if ( $posts->have_posts() ) {
+      $result['message'] = 'adding array "set", starting index at 0';
+      $result['set'] = array();
+      $index = 0;
+
+      while ( $posts->have_posts() ) {
+        $posts->the_post();
+        $post_custom = get_post_custom();
+        $post_id = get_the_ID();
+        $file_url = isset($post_custom[$field_name]) ? $post_custom[$field_name][0] : '';
+
+        $result['set'][$index] = array(
+          'post_id' => $post_id,
+          'file_url' => $file_url,
+          'success' => false,
+          'message' => 'file field' . $field_name . ' is empty',
+        );
+
+        if ( !empty($file_url) ) {
+          $result['set'][$index]['message'] = 'post thumbnail allready set';
+          $file_path = trailingslashit(ABSPATH) . ltrim(parse_url($file_url, PHP_URL_PATH), '/');
+          $result['set'][$index]['file_path'] = $file_path;
+
+          if ( !has_post_thumbnail($post_id) ) {
+            $result['set'][$index]['message'] = 'pdf file not found or no pdf file source';
+	          $pdf_thumbnail = myPlugin_generate_pdf_thumbnail($file_path);
+            $result['set'][$index]['pdf_thumbnail'] = $pdf_thumbnail;
+
+	          if ( $pdf_thumbnail !== false ) {
+	            $result['set'][$index]['message'] = 'pdf thumbnail not found or no jpeg file source';
+	            $post_thumbnail = myPlugin_set_post_thumbnail($post_id, $pdf_thumbnail);
+              $result['set'][$index]['post_thumbnail'] = $post_thumbnail;
+
+	            if ( $post_thumbnail !== false ) {
+	              $result['set'][$index]['success'] = true;
+	              $result['set'][$index]['message'] = 'post thumbnail set succesful';
+
+	              if ( $result['error'] === true ) {
+	                $result['error'] = false;
+	              }
+	            }
+	          }
+          }
+        }
+        $index++;
+      }
+      $result['message'] .= ', total index: ' . $index;
+    }
+  }
+  return $result;
+}
 
 ?>
