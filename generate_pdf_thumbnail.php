@@ -120,6 +120,7 @@ function myPlugin_set_post_thumbnail($post_id=0, $pdf_thumbnail, $delete_tmp=tru
   }
   return $post_thumbnail;
 }
+
 /**
  * Generate and set all post thumbnails for a post type by a pdf upload url field
  *
