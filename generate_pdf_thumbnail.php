@@ -102,6 +102,7 @@ function myPlugin_set_post_thumbnail($post_id=0, $pdf_thumbnail, $delete_tmp=tru
 
     // And finally assign featured image to post
     if ( set_post_thumbnail($post_id, $post_thumbnail_id) ) {
+      // delete temporary file if the option is set (default)
       if ( $delete_tmp ) {
         $delete_tmp = wp_delete_file($pdf_thumbnail);
       }
