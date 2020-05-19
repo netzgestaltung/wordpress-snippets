@@ -1,4 +1,8 @@
 <?php
+// add shortcodes to the excerpt
+add_filter('the_excerpt', 'shortcode_unautop');
+add_filter('the_excerpt', 'do_shortcode');
+
 /**
  * based on https://gist.github.com/marcelotorres/c6164d6a9a8bfd0700bdb1de4de4fb6d
  */
