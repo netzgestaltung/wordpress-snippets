@@ -1,14 +1,14 @@
 <?php
-add_action('wp_footer', 'myPlugin_piwik_tracker');
+add_action('wp_footer', 'myPlugin_matomo_tracker');
 // track download actions
 // used with alpha_downloads: https://github.com/netzgestaltung/alpha-downloads
 // add_action('ddownload_save_success_before', 'myPlugin_action_tracker');
 
 
 /**
-  * Piwik Tracker implementing class PiwikTracker
+  * Matomo Tracker implementing class MatomoTracker
   * =============================================
-  * https://github.com/netzgestaltung/wordpress-snippets/blob/master/piwik-tracker.php
+  * https://github.com/netzgestaltung/wordpress-snippets/blob/master/matomo-tracker.php
   * Tracks anonymous pageViews on every visit by HTTP Tracking API
   *
   * Usage:
@@ -16,47 +16,47 @@ add_action('wp_footer', 'myPlugin_piwik_tracker');
   *
   * Installation:
   * Download: https://github.com/matomo-org/matomo-php-tracker
-  * save PiwikTracker.php in yourThemes <folderRoot>/includes/matomo-php-tracker/PiwikTracker.php
+  * save MatomoTracker.php in yourThemes <folderRoot>/includes/matomo-php-tracker/MatomoTracker.php
   * Integrate this file into yourThemes functions.php and rename "myPlugin" to your themes name
   *
   * Configuration:
-  * Specify $tracker_url, $piwik_site_id and $piwik_user_token
+  * Specify $tracker_url, $matomo_site_id and $matomo_user_token
   *
   *
   * License: GNU General Public License v2.0
   */
 function myPlugin_get_matomo_tracker(){
   // Config
-  // Matomo base URL, for example http://example.org/piwik/ Must be set
+  // Matomo base URL, for example http://example.org/matomo/ Must be set
   $tracker_url = '';
   // Specify the site ID to track
   $tracker_site_id = 1;
   // Specify an API token with at least Write permission, so the Visitor IP address can be recorded
   // Learn more about token_auth: https://matomo.org/faq/general/faq_114/
   $tracker_user_token = '';
-  include_once(get_template_directory() . '/includes/matomo-php-tracker/PiwikTracker.php');
-  PiwikTracker::$URL = $tracker_url;
-  $piwikTracker = new PiwikTracker($tracker_site_id);
+  include_once(get_template_directory() . '/includes/matomo-php-tracker/MatomoTracker.php');
+  MatomoTracker::$URL = $tracker_url;
+  $matomoTracker = new MatomoTracker($tracker_site_id);
   // Specify an API token with at least Write permission, so the Visitor IP address can be recorded
   // Learn more about token_auth: https://matomo.org/faq/general/faq_114/
-  $piwikTracker->setTokenAuth($tracker_user_token);
+  $matomoTracker->setTokenAuth($tracker_user_token);
   // You can manually set the visitor details (resolution, time, plugins, etc.)
-  // See all other ->set* functions available in the PiwikTracker.php file
-  // $piwikTracker->setResolution(1600, 1400);
+  // See all other ->set* functions available in the MatomoTracker.php file
+  // $matomoTracker->setResolution(1600, 1400);
   // only track anonymous data!
-  $piwikTracker->setIp('0.0.0.0');
-  $piwikTracker->deleteCookies();
-  $piwikTracker->disableCookieSupport();
+  $matomoTracker->setIp('0.0.0.0');
+  $matomoTracker->deleteCookies();
+  $matomoTracker->disableCookieSupport();
 
-  return $piwikTracker;
+  return $matomoTracker;
 }
 function myPlugin_action_tracker($download_id){
-  $piwikTracker = myPlugin_get_matomo_tracker();
+  $matomoTracker = myPlugin_get_matomo_tracker();
   // requires "alpha-downloads"
   $download_url = get_post_meta($download_id, '_alpha_file_url', true);
-  $piwikTracker->doTrackAction($download_url, 'download');
+  $matomoTracker->doTrackAction($download_url, 'download');
 }
-function myPlugin_piwik_tracker(){
+function myPlugin_matomo_tracker(){
   // exclude json calls
   if ( isset($_POST['json']) || isset($_GET['json']) ) {
     return;
@@ -80,20 +80,20 @@ function myPlugin_piwik_tracker(){
   // - bot user agents by regex
   if ( !$is_referer && !is_admin() && is_main_query() && !wp_doing_ajax() && !preg_match('/bot|crawl|slurp|spider/i', $_SERVER['HTTP_USER_AGENT']) ) {
 
-    $piwikTracker = myPlugin_get_matomo_tracker();
+    $matomoTracker = myPlugin_get_matomo_tracker();
     // page title
     $page_title = wp_get_document_title();
 
     if ( is_404() ) {
       $page_title = '404 not found, Look for 404 Data at Custom Variables';
-      $piwikTracker->setCustomVariable(1, '404', $site_url, 'page');
+      $matomoTracker->setCustomVariable(1, '404', $site_url, 'page');
       $site_url = $schema . $_SERVER['SERVER_NAME'] . '/404';
     }
 
     // Campaign Tracking
     if ( isset($_GET['c']) ) {
 
-      // Piwik related campain query params
+      // Matomo related campain query params
       $campaign_parts = array(
         'pk_campaign',
         'pk_source',
@@ -145,16 +145,16 @@ function myPlugin_piwik_tracker(){
         $mtb_params[2] = 'My second link';
       }
       // track event
-      $piwikTracker->doTrackEvent($mtb_params[0], $mtb_params[1], $mtb_params[2], $mtb_value);
+      $matomoTracker->doTrackEvent($mtb_params[0], $mtb_params[1], $mtb_params[2], $mtb_value);
     }
 
     // Set the url of visited page that we send to matomo
-    $piwikTracker->setUrl($site_url);
+    $matomoTracker->setUrl($site_url);
 
     // Sends Tracker request via http
-    $piwikTracker->doTrackPageView($page_title);
+    $matomoTracker->doTrackPageView($page_title);
     // You can also track Goal conversions
-    // $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);
+    // $matomoTracker->doTrackGoal($idGoal = 1, $revenue = 42);
   }
 }
 ?>
