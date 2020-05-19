@@ -1,4 +1,4 @@
-
+<?php
 add_action('wp_footer', 'myPlugin_piwik_tracker');
 // track download actions
 // used with alpha_downloads: https://github.com/netzgestaltung/alpha-downloads
@@ -157,3 +157,4 @@ function myPlugin_piwik_tracker(){
     // $piwikTracker->doTrackGoal($idGoal = 1, $revenue = 42);
   }
 }
+?>
