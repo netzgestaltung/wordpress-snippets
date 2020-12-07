@@ -10,9 +10,9 @@
  * 
  * @return Array $tag 
  */
-add_filter('wpcf7_form_tag', 'sandbox_wpcf7_form_tag');
+add_filter('wpcf7_form_tag', 'myPlugin_wpcf7_form_tag');
 
-function sandbox_wpcf7_form_tag($tag){
+function myPlugin_wpcf7_form_tag($tag){
   // Only run on select lists
   if ( $tag['type'] === 'select' || $tag['type'] === 'select*' ) {
     if ( !empty($tag['options']) ) {
