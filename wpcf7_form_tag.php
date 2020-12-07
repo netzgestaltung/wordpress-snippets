@@ -2,10 +2,8 @@
 /**
  * CF7 add dynamic taxonomy option to select menu fields in
  *
- * https://wordpress.stackexchange.com/questions/115947/contact-form-7-populate-select-list-with-taxonomy
- *
+ * @see https://wordpress.stackexchange.com/questions/115947/contact-form-7-populate-select-list-with-taxonomy
  * @usage [select name taxonomy:{$taxonomy} ...]
- * 
  * @param Array $tag  Contact form 7 field tag
  * 
  * @return Array $tag 
