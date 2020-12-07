@@ -1,3 +1,4 @@
+<?php
 /**
  * CF7 add dynamic taxonomy option to select menu fields in
  *
@@ -52,3 +53,4 @@ function sandbox_wpcf7_form_tag($tag){
   }
   return $tag;
 }
+?>
