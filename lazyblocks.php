@@ -7,7 +7,7 @@
 
 /**
  * remove lazy blocks wrapper container markup in frontend
- * https://lazyblocks.com/documentation/blocks-code/php-callback/
+ * @see  https://lazyblocks.com/documentation/blocks-code/php-callback/
  */
 add_filter('lzb/block_render/allow_wrapper', '__return_false');
   
