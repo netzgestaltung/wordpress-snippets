@@ -1,6 +1,8 @@
 /**
- * Lazy blocks snippets
- * @
+ * @file Lazy blocks snippets
+ * @author Thomas Fellinger <office@netzgestaltung.at>
+ * @license GPL-2.0-or-later
+ * @link https://github.com/netzgestaltung/wordpress-snippets/blob/master/lazyblocks.php
  */
 
 /**
