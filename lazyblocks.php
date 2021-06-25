@@ -13,6 +13,7 @@ add_filter('lzb/block_render/allow_wrapper', '__return_false');
   
 /**
  * Additional lazy blocks Handlebars helper
+ * @see  https://lazyblocks.com/documentation/php-actions/lzb-handlebars-object/
  */
 function myPlugin_lazyblocks_handlebars_helper($handlebars){
 
@@ -21,7 +22,6 @@ function myPlugin_lazyblocks_handlebars_helper($handlebars){
    * @link https://github.com/nk-o/lazy-blocks/issues/68
    * @see  https://developer.wordpress.org/reference/functions/wp_get_attachment_image/
    * @see  https://lazyblocks.com/documentation/blocks-controls/image/
-   * @see  https://lazyblocks.com/documentation/php-actions/lzb-handlebars-object/
    * 
    * @example
    * {{{ wp_get_attachment_image control_name 'thumbnail' }}}
