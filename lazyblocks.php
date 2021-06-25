@@ -19,7 +19,7 @@ function myPlugin_lazyblocks_handlebars_helper($handlebars){
   /**
    * wp_get_attachment_image Handlebars helper
    * @link https://github.com/nk-o/lazy-blocks/issues/68
-   * @see https://developer.wordpress.org/reference/functions/wp_get_attachment_image/
+   * @see  https://developer.wordpress.org/reference/functions/wp_get_attachment_image/
    * 
    * @example
    * {{{ wp_get_attachment_image control_name 'thumbnail' }}}
